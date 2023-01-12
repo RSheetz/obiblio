@@ -4,7 +4,7 @@ values (null
   ,sysdate()
   ,1
   ,'admin'
-  ,sha('admin',256)
+  ,sha2('admin',256)
   ,'Administrator'
   ,null
   ,'N'
