@@ -136,7 +136,7 @@ $trans["reportCriteriaDateErr"]   = "\$text = 'Ungültiges Datumsformat.';";
 $trans["staffLastNameReqErr"]     = "\$text = 'Nachname wird benötigt.';";
 $trans["staffUserNameLenErr"]     = "\$text = 'Benutzername muss mindestens 4 Zeichen lang sein.';";
 $trans["staffUserNameCharErr"]    = "\$text = 'Benutzername darf kein Leerzeichen enthalten.';";
-$trans["staffPwdLenErr"]          = "\$text = 'Passwort muss mindestens 4 Zeichen lang sein.';";
+$trans["staffPwdLenErr"]          = "\$text = 'Passwort muss mindestens 8 Zeichen lang sein.';";
 $trans["staffPwdCharErr"]         = "\$text = 'Passwort darf kein Leerzeichen enthalten.';";
 $trans["staffPwdMatchErr"]        = "\$text = 'Passwörter sind nicht identisch.';";
 

@@ -67,7 +67,8 @@ class Staff {
    */
   function validatePwd() {
     $valid = true;
-    if (strlen($this->_pwd) < 4) {
+    if (strlen($this->_pwd) < 8) // Roman Sheetz den Wert von 4 auf 8 geändert4) 
+	{
       $valid = false;
       $this->_pwdError = $this->_loc->getText("staffPwdLenErr");
     } elseif (substr_count($this->_pwd, " ") > 0) {
@@ -185,7 +186,7 @@ class Staff {
    ****************************************************************************
    */
   function setUsername($username) {
-    $this->_username = strtolower(trim($username));
+    $this->_username = trim($username); // strtolower(trim($username)); Roman Sheetz geändert am 18.06.2023
   }
   /****************************************************************************
    * @return boolean true if staff member has circulation authorization

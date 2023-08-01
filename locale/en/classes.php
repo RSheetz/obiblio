@@ -136,7 +136,7 @@ $trans["reportCriteriaDateErr"]   = "\$text = 'Invalid date format.';";
 $trans["staffLastNameReqErr"]     = "\$text = 'Last name is required.';";
 $trans["staffUserNameLenErr"]     = "\$text = 'Username must be at least 4 characters.';";
 $trans["staffUserNameCharErr"]    = "\$text = 'Username must not contain any spaces.';";
-$trans["staffPwdLenErr"]          = "\$text = 'Password must be at least 4 characters.';";
+$trans["staffPwdLenErr"]          = "\$text = 'Password must be at least 8 characters.';";
 $trans["staffPwdCharErr"]         = "\$text = 'Password must not contain any spaces.';";
 $trans["staffPwdMatchErr"]        = "\$text = 'Passwords do not match.';";
 

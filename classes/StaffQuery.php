@@ -5,7 +5,7 @@
  
 require_once("../shared/global_constants.php");
 require_once("../classes/Query.php");
-
+require_once("../Mails/use_pepper.php");
 /******************************************************************************
  * StaffQuery data access component for library staff members
  *
@@ -39,6 +39,9 @@ class StaffQuery extends Query {
    ****************************************************************************
    */
   function verifySignon($username, $pwd) {
+	  
+	$pwd=controlpepper($username,$pwd);
+	
     $sql = $this->mkSQL("select * from staff "
                         . "where username = lower(%Q) "
                         . " and pwd =sha2(%Q,256) ",  //md5(lower(%Q)) sha2(%Q,256)
@@ -138,6 +141,9 @@ class StaffQuery extends Query {
    ****************************************************************************
    */
   function insert($staff) {
+	  
+	$pwd=$staff->getPwd();
+	$pwd=insertpepper($pwd,$staff->getUsername());
     $dupUsername = $this->_dupUserName($staff->getUsername());
     if ($this->errorOccurred()) return false;
     if ($dupUsername) {
@@ -148,7 +154,7 @@ class StaffQuery extends Query {
     $sql = $this->mkSQL("insert into staff values (null, sysdate(), sysdate(), "
                         . "%N, %Q, sha2(%Q,256), %Q, ", //md5(lower(%Q)) md5 ist veraltet!! sha2(%Q,256)
                         $staff->getLastChangeUserid(), $staff->getUsername(), 
-                        $staff->getPwd(), $staff->getLastName());
+                        $pwd, $staff->getLastName());
     if ($staff->getFirstName() == "") {
       $sql .= "null, ";
     } else {
@@ -212,6 +218,9 @@ class StaffQuery extends Query {
    ****************************************************************************
    */
   function resetPwd($staff) {
+	 $pwd=$staff->getPwd();
+	
+	$pwd=resetpepper($staff->getUserid(),$pwd); 
     $sql = $this->mkSQL("update staff set pwd=sha2(%Q,256)" //sha2(%Q,256) md5(lower(%Q))
                         . "where userid=%N ",
                         $staff->getPwd(), $staff->getUserid());
@@ -226,6 +235,8 @@ class StaffQuery extends Query {
    ****************************************************************************
    */
   function delete($userid) {
+	  
+	deletepepper($userid);  
     $sql = $this->mkSQL("delete from staff where userid = %N ", $userid);
     return $this->_query($sql, "Error deleting staff information.");
   }
