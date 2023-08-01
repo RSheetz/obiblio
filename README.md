@@ -47,6 +47,7 @@ Bitte wundert euch daher nicht, wenn das Programm grundsätzliche Änderungen un
   <li>Eine automatisierte Bestätigung- , Erinnerungs- und Mahnmail</li>
   <li>BackUp Funktion bei einem Ausfall der Internetverbindung</li>
   <li>Update der Hash Funktion von md5 zu sha256</li>
+  <li>Peppern der Passwörter</li>
   <li>Leichte Anpassung der Installationsroutinen</li>
 </p>
 
