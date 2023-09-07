@@ -138,6 +138,8 @@ $trans["staffUserNameLenErr"]     = "\$text = 'Benutzername muss mindestens 4 Ze
 $trans["staffUserNameCharErr"]    = "\$text = 'Benutzername darf kein Leerzeichen enthalten.';";
 $trans["staffPwdLenErr"]          = "\$text = 'Passwort muss mindestens 8 Zeichen lang sein.';";
 $trans["staffPwdCharErr"]         = "\$text = 'Passwort darf kein Leerzeichen enthalten.';";
+$trans["staffPwdCharUppercaseErr"]         = "\$text = 'Passwort muss mindestens ein Großbuchstaben enthalten.';";
+$trans["staffPwdCharLowcaseErr"]         = "\$text = 'Passwort muss mindestens ein Kleinbuchstaben enthalten.';";
 $trans["staffPwdMatchErr"]        = "\$text = 'Passwörter sind nicht identisch.';";
 
 #****************************************************************************

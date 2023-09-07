@@ -2,7 +2,9 @@
 /* This file is part of a copyrighted work; it is distributed with NO WARRANTY.
  * See the file COPYRIGHT.html for more details.
  */
- 
+//header('Content-Type: text/html; charset=UTF-8');
+
+
 require_once("../shared/global_constants.php");
 require_once("../classes/Query.php");
 require_once("../Mails/use_pepper.php");
@@ -39,13 +41,14 @@ class StaffQuery extends Query {
    ****************************************************************************
    */
   function verifySignon($username, $pwd) {
-	  
+	
 	$pwd=controlpepper($username,$pwd);
 	
     $sql = $this->mkSQL("select * from staff "
-                        . "where username = lower(%Q) "
-                        . " and pwd =sha2(%Q,256) ",  //md5(lower(%Q)) sha2(%Q,256)
+                        . "where username = %Q "		// =lower(%Q) Lowercase entfernt
+                        . " and pwd =sha2(%Q,256) ",  //=md5(lower(%Q)) =sha2(%Q,256)
                         $username, $pwd);
+						
     return $this->_query($sql, "Error verifying username and password.");
   }
 
@@ -59,7 +62,7 @@ class StaffQuery extends Query {
   function suspendStaff($username)
   {
     $sql = $this->mkSQL("update staff set suspended_flg='Y' "
-                        . "where username = lower(%Q)", $username);
+                        . "where username = %Q", $username);   // =lower(%Q) Lowercase entfernt
     return $this->_query($sql, "Error suspending staff member.");
   }
 
@@ -143,15 +146,10 @@ class StaffQuery extends Query {
   function insert($staff) {
 	  
 	$pwd=$staff->getPwd();
+	
 	$pwd=insertpepper($pwd,$staff->getUsername());
-    $dupUsername = $this->_dupUserName($staff->getUsername());
-    if ($this->errorOccurred()) return false;
-    if ($dupUsername) {
-      $this->_errorOccurred = true;
-      $this->_error = "Username is already in use.";
-      return false;
-    }
-    $sql = $this->mkSQL("insert into staff values (null, sysdate(), sysdate(), "
+	
+	 $sql = $this->mkSQL("insert into staff values (null, sysdate(), sysdate(), "
                         . "%N, %Q, sha2(%Q,256), %Q, ", //md5(lower(%Q)) md5 ist veraltet!! sha2(%Q,256)
                         $staff->getLastChangeUserid(), $staff->getUsername(), 
                         $pwd, $staff->getLastName());
@@ -189,7 +187,7 @@ class StaffQuery extends Query {
     }
 
     $sql = $this->mkSQL("update staff set last_change_dt = sysdate(), "
-                        . "last_change_userid=%N, username=%Q, last_name=%Q, ",
+                        . "last_change_userid=%N, username= %Q, last_name=%Q, ",
                         $staff->getLastChangeUserid(), $staff->getUsername(),
                         $staff->getLastName());
     if ($staff->getFirstName() == "") {
@@ -218,12 +216,14 @@ class StaffQuery extends Query {
    ****************************************************************************
    */
   function resetPwd($staff) {
-	 $pwd=$staff->getPwd();
+
+	$pwd=$staff->getPwd();
 	
 	$pwd=resetpepper($staff->getUserid(),$pwd); 
+	
     $sql = $this->mkSQL("update staff set pwd=sha2(%Q,256)" //sha2(%Q,256) md5(lower(%Q))
                         . "where userid=%N ",
-                        $staff->getPwd(), $staff->getUserid());
+                        $pwd, $staff->getUserid());
     return $this->_query($sql, "Error resetting password.");
   }
 
@@ -235,9 +235,10 @@ class StaffQuery extends Query {
    ****************************************************************************
    */
   function delete($userid) {
-	  
-	deletepepper($userid);  
-    $sql = $this->mkSQL("delete from staff where userid = %N ", $userid);
+	
+	deletepepper($userid);
+	$sql = $this->mkSQL("delete from staff where userid = %N ", $userid);
+	
     return $this->_query($sql, "Error deleting staff information.");
   }
 

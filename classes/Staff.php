@@ -67,20 +67,27 @@ class Staff {
    */
   function validatePwd() {
     $valid = true;
-    if (strlen($this->_pwd) < 8) // Roman Sheetz den Wert von 4 auf 8 geändert4) 
+	// Roman Sheetz den Wert von 4 auf 8 geändert sowie Kontrolle mechanismen für 1 Groß und Klein Buchstaben 
+    if (strlen($this->_pwd) < 8) 
 	{
       $valid = false;
       $this->_pwdError = $this->_loc->getText("staffPwdLenErr");
     } elseif (substr_count($this->_pwd, " ") > 0) {
       $valid = false;
       $this->_pwdError = $this->_loc->getText("staffPwdCharErr");
-    } elseif ($this->_pwd != $this->_pwd2) {
+    } elseif (!preg_match('`[A-Z]`',$this->_pwd)) {
+      $valid = false;
+      $this->_pwdError = $this->_loc->getText("staffPwdCharUppercaseErr");
+	} elseif (!preg_match('`[a-z]`',$this->_pwd)) {
+      $valid = false;
+      $this->_pwdError = $this->_loc->getText("staffPwdCharLowcaseErr");
+	}elseif ($this->_pwd != $this->_pwd2) {
       $valid = false;
       $this->_pwdError = $this->_loc->getText("staffPwdMatchErr");
     }
     return $valid;
   }
-
+ 
   /****************************************************************************
    * @return string Staff userid
    * @access public
@@ -186,7 +193,7 @@ class Staff {
    ****************************************************************************
    */
   function setUsername($username) {
-    $this->_username = trim($username); // strtolower(trim($username)); Roman Sheetz geändert am 18.06.2023
+    $this->_username = trim($username); // Roman Sheetz geändert am 28.06.2023
   }
   /****************************************************************************
    * @return boolean true if staff member has circulation authorization
